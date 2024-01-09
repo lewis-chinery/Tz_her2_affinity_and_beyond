@@ -6,8 +6,23 @@ Tz_her2_affinity_and_beyond.egg-info
 # cache
 *pycache*
 
-# data
+# empty esm weights file
 data/esm_weights/*
 !data/esm_weights/.gitkeep
+
+# small example her2 dataset
 data/affinity_data/*
 !data/affinity_data/example
+
+# full her2-aff-large dataset
+!data/affinity_data/her2
+data/affinity_data/her2/*
+!data/affinity_data/her2/her2_aff_large
+data/affinity_data/her2/her2_aff_large/*
+!data/affinity_data/her2/her2_aff_large/processed
+data/affinity_data/her2/her2_aff_large/processed/*
+!data/affinity_data/her2/her2_aff_large/processed/remove_overlap
+data/affinity_data/her2/her2_aff_large/processed/remove_overlap/*
+!data/affinity_data/her2/her2_aff_large/processed/remove_overlap/random_split
+data/affinity_data/her2/her2_aff_large/processed/remove_overlap/random_split/*
+!data/affinity_data/her2/her2_aff_large/processed/remove_overlap/random_split/0.7_0.15_0.15
