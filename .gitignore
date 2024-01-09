@@ -9,3 +9,5 @@ Tz_her2_affinity_and_beyond.egg-info
 # data
 data/esm_weights/*
 !data/esm_weights/.gitkeep
+data/affinity_data/*
+!data/affinity_data/example
