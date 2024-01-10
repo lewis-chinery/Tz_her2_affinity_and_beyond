@@ -1,6 +1,8 @@
 import numpy as np
+import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import seaborn as sns
 import logomaker as lm
 
 
@@ -97,3 +99,133 @@ def colorFader(c1,c2,mix):
     c1=np.array(mpl.colors.to_rgb(c1))
     c2=np.array(mpl.colors.to_rgb(c2))
     return mpl.colors.to_hex((1-mix)*c1 + mix*c2)
+
+
+def get_method_colour_map ():
+    return {"trastuzumab": "black",
+            "her2_aff_lrg": "grey",
+            "blosum": "green",
+            "random": "limegreen",
+            "ablang_all": "darkviolet",
+            "ablang_one": "indigo",
+            "esm_all": "darkblue",
+            "esm_one": "blue",
+            "protein_mpnn": "firebrick"}
+
+
+def make_nice_tsne_axes(fontsize=16, figsize=(7,7)):
+    '''
+    Make nice axes for tsne plots
+
+    :param fontsize: fontsize for axes labels
+    :param figsize: figsize for plot
+    :return: fig, ax
+    '''
+    fig, ax = plt.subplots(figsize=figsize)
+    plt.rcParams.update({"font.size": fontsize,
+                         "font.family": "monospace",
+                         "text.color" : "black",
+                         "axes.labelcolor" : "black",
+                         "figure.facecolor":  "white",
+                         "axes.facecolor":    "white",
+                         "savefig.facecolor": "white"
+                         })
+    plt.xticks([])
+    plt.yticks([])
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    plt.xlabel("t-SNE 1", fontsize=fontsize)
+    plt.ylabel("t-SNE 2", fontsize=fontsize)
+    return fig, ax
+
+
+def make_df_for_tsne_plotting(z, y, to_test=None):
+    '''
+    Make df for tsne plotting
+
+    :param z: tsne output
+    :param y: method labels
+    :param to_test: binary list whether or not to test (can be used for different sized markers later)
+    :return: plotting_df
+    '''
+    plotting_df = pd.DataFrame()
+    plotting_df["y"] = y
+    plotting_df["comp-1"] = z[:,0]
+    plotting_df["comp-2"] = z[:,1]
+    if to_test == None:
+        to_test = np.array([0] * len(y))
+    plotting_df["to_test"] = to_test
+    return plotting_df
+
+
+def make_nice_legend_formatting_of_methods(methods):
+    '''
+    Make nice legend formatting of methods
+
+    :param methods: list of methods that are normally used in analysis
+    :return: list of methods in same order but made pretty
+    '''
+    new_methods = []
+    for method in methods:
+        if method == "her2_aff_lrg": new_methods.append("HER2-aff-lrg")
+        if method == "blosum": new_methods.append("BLOSUM")
+        if method == "ablang_all": new_methods.append("AbL (all)")
+        if method == "ablang_one": new_methods.append("AbL (one)")
+        if method == "esm_one": new_methods.append("ESM (one)")
+        if method == "esm_all": new_methods.append("ESM (all)")
+        if method == "protein_mpnn": new_methods.append("MPNN")
+    return new_methods
+
+
+def plot_tsne(z, y, to_test=None, fontsize=16, figsize=(7,7), dms_alt_palette=None,
+              method_colour_map=None, markers={0: ".", 1: "X"}, sizes={0: 10, 1: 30},
+              trastuzumab_size=200):
+    '''
+    Plot tsne
+
+    :param z: tsne output
+    :param y: method labels
+    :param to_test: binary list whether or not to test (can be used for different sized markers)
+    :param fontsize: fontsize for axes labels
+    :param figsize: figsize for plot
+    :param dms_alt_palette: list of colours to use for dms alternatives
+    :param method_colour_map: dict of method names to colours
+    :param markers: dict of what shape marker to do for test (1)/not test (0)
+    :param sizes: dict of what size marker to do for test (1)/not test (0)
+    :param trastuzumab_size: size of trastuzumab marker
+    '''
+    _, ax = make_nice_tsne_axes(fontsize=fontsize, figsize=figsize)
+    plotting_df = make_df_for_tsne_plotting(z, y, to_test=to_test)
+    method_colour_map = get_method_colour_map() if method_colour_map == None else method_colour_map
+
+    # dms alternatives
+    sns.scatterplot(x="comp-1",
+                    y="comp-2",
+                    hue="y",
+                    style="to_test",
+                    markers=markers,
+                    size="to_test",
+                    sizes=sizes,
+                    palette=dms_alt_palette,
+                    data=plotting_df[plotting_df["y"] != "trastuzumab"],
+                    ax=ax)
+
+    # trastuzumab
+    sns.scatterplot(x="comp-1",
+                    y="comp-2",
+                    hue="y",
+                    palette=[method_colour_map["trastuzumab"]],
+                    data=plotting_df[plotting_df["y"] == "trastuzumab"],
+                    s=trastuzumab_size,
+                    ax=ax)
+
+    handles, labels = ax.get_legend_handles_labels()
+    labels = labels[1:len(np.unique(y))]
+    labels = make_nice_legend_formatting_of_methods(labels)
+    handles = handles[1:]
+    ax.legend(handles=handles, labels=labels, facecolor="inherit",
+              bbox_to_anchor=(1,0.70), fontsize=14, title="")
+    print(handles)
+    plt.show()
