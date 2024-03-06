@@ -1,0 +1,1 @@
+The code for the Equivariant Graph Neural Network (EGNN) is adapted from Satorras et al., 2021 (https://arxiv.org/abs/2102.09844, https://github.com/vgsatorras/egnn) and Graphinity (https://www.biorxiv.org/content/10.1101/2023.05.17.541222v1, https://github.com/amhummer/Graphinity).
