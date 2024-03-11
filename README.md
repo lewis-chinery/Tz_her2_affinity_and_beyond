@@ -45,7 +45,7 @@ source .buzz_venv/bin/activate
 pip install .
 ```
 
-If you are having issues installing, try upgrading pip: *pip install --upgrade pip*.
+If you are having issues installing, try upgrading pip: *pip install --upgrade pip*. Specific python versions can be used to initiate the environment using e.g. */usr/bin/python3.9 -m venv .buzz_venv*
 
 
 <!--- USAGE --->
