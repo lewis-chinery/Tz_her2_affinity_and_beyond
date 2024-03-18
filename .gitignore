@@ -26,3 +26,7 @@ data/affinity_data/her2/her2_aff_large/processed/remove_overlap/*
 !data/affinity_data/her2/her2_aff_large/processed/remove_overlap/random_split
 data/affinity_data/her2/her2_aff_large/processed/remove_overlap/random_split/*
 !data/affinity_data/her2/her2_aff_large/processed/remove_overlap/random_split/0.7_0.15_0.15
+data/affinity_data/her2/her2_aff_large/processed/remove_overlap/random_split/0.7_0.15_0.15/*.pkl
+
+# zipped data for sharing
+data.zip
