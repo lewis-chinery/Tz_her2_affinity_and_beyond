@@ -60,5 +60,11 @@ Source code is provided in the `src` folder and example use cases are provided i
 ## Citation
 
 ```
-@article{tbc}
+@article{Chinery2024,
+  title = {Baselining the Buzz. Trastuzumab-HER2 Affinity, and Beyond!},
+  author = {Lewis Chinery, Alissa M Hummer, Brij Bhushan Mehta, Rahmad Akbar, Puneet Rawat, Andrei Slabodkin, Khang Le Quy, Fridtjof Lund-Johansen, Victor Greiff, Jeliazko R Jeliazkov, and Charlotte M Deane},
+  journal = {bioRxiv},
+  year = {2024},
+  doi = {10.1101/2024.03.26.586756}
+}
 ```
